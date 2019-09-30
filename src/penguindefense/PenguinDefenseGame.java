@@ -29,19 +29,19 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	// resources
-	public static final String IMG_BACKGROUND = "penguindefense.resource/background.png";
-	public static final String IMG_TILE_BLANK = "penguindefense.resource/tile-blank.png";
-	public static final String IMG_PATH_STRAIGHT_HOR = "penguindefense.resource/path-straight-horizontal.png";
-	public static final String IMG_PATH_STRAIGHT_VER = "penguindefense.resource/path-straight-vertical.png";
-	public static final String IMG_PATH_TURN_DOWNLEFT = "penguindefense.resource/path-turn-downleft.png";
-	public static final String IMG_PATH_TURN_DOWNRIGHT = "penguindefense.resource/path-turn-downright.png";
-	public static final String IMG_PATH_TURN_UPLEFT = "penguindefense.resource/path-turn-upleft.png";
-	public static final String IMG_PATH_TURN_UPRIGHT = "penguindefense.resource/path-turn-upright.png";
-	public static final String IMG_PATH_3WAY_DOWN = "penguindefense.resource/path-3way-down.png";
-	public static final String IMG_PATH_3WAY_LEFT = "penguindefense.resource/path-3way-left.png";
-	public static final String IMG_PATH_3WAY_RIGHT = "penguindefense.resource/path-3way-right.png";
-	public static final String IMG_PATH_3WAY_UP = "penguindefense.resource/path-3way-up.png";
-	public static final String IMG_PATH_4WAY = "penguindefense.resource/path-4way.png";
+	public static final String IMG_BACKGROUND = "penguindefense/resource/background.png";
+	public static final String IMG_TILE_BLANK = "penguindefense/resource/tile-blank.png";
+	public static final String IMG_PATH_STRAIGHT_HOR = "penguindefense/resource/path-straight-horizontal.png";
+	public static final String IMG_PATH_STRAIGHT_VER = "penguindefense/resource/path-straight-vertical.png";
+	public static final String IMG_PATH_TURN_DOWNLEFT = "penguindefense/resource/path-turn-downleft.png";
+	public static final String IMG_PATH_TURN_DOWNRIGHT = "penguindefense/resource/path-turn-downright.png";
+	public static final String IMG_PATH_TURN_UPLEFT = "penguindefense/resource/path-turn-upleft.png";
+	public static final String IMG_PATH_TURN_UPRIGHT = "penguindefense/resource/path-turn-upright.png";
+	public static final String IMG_PATH_3WAY_DOWN = "penguindefense/resource/path-3way-down.png";
+	public static final String IMG_PATH_3WAY_LEFT = "penguindefense/resource/path-3way-left.png";
+	public static final String IMG_PATH_3WAY_RIGHT = "penguindefense/resource/path-3way-right.png";
+	public static final String IMG_PATH_3WAY_UP = "penguindefense/resource/path-3way-up.png";
+	public static final String IMG_PATH_4WAY = "penguindefense/resource/path-4way.png";
 	
 	// entities
 

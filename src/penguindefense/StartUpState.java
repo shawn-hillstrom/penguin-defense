@@ -6,6 +6,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import jig.ResourceManager;
+
 /**
  * This state is active before the game starts. A player can see the map, and can
  * transition into the next state (PlayingState) by pressing any key.
@@ -24,6 +26,9 @@ public class StartUpState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		
+		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		
+		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 	}
 
 	@Override
