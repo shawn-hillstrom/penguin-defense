@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import jig.Entity;
 import jig.ResourceManager;
 
 /**
@@ -44,6 +45,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public static final String IMG_PATH_4WAY = "penguindefense/resource/path-4way.png";
 	
 	// entities
+	GameMap myMap;
 
 	/**
 	 * Constructor for a game of Penguin Defense.
@@ -59,6 +61,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 		super(name);
 		screenWidth = width;
 		screenHeight = height;
+		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
 	}
 
 	@Override
