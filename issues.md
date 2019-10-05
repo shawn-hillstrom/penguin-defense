@@ -1,10 +1,10 @@
 ## Resolved Issues ##
 
 - **[1]** Create a basic executable game, with a StartUp state
+- **[2]** Create a map and generate/render it
 
 ## Open Issues ##
 
-- **[2]** Create at least 3 tile-based maps
 - **[3]** Create enemy entities with sound and animation
 - **[4]** Create an objective entity that can take damage and has an animation/sound
 - **[5]** Create fortification entities that are buildable and breakable, also add animation/sound for said entities
