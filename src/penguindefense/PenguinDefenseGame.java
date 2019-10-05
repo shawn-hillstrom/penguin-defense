@@ -29,7 +29,10 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public final int screenWidth;
 	public final int screenHeight;
 	
-	// resources
+	//sounds
+	public static final String SND_QUACK = "penguindefense/resource/quack.mp3";
+	
+	// images
 	public static final String IMG_BACKGROUND = "penguindefense/resource/background.png";
 	public static final String IMG_TILE_BLANK = "penguindefense/resource/tile-blank.png";
 	public static final String IMG_PATH_STRAIGHT_HOR = "penguindefense/resource/path-straight-horizontal.png";
@@ -43,6 +46,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public static final String IMG_PATH_3WAY_RIGHT = "penguindefense/resource/path-3way-right.png";
 	public static final String IMG_PATH_3WAY_UP = "penguindefense/resource/path-3way-up.png";
 	public static final String IMG_PATH_4WAY = "penguindefense/resource/path-4way.png";
+	public static final String IMG_PENGUIN = "penguindefense/resource/penguin.png";
 	
 	// entities
 	GameMap myMap;
@@ -69,6 +73,9 @@ public class PenguinDefenseGame extends StateBasedGame {
 		
 		addState(new StartUpState());
 		
+		// initialize sounds
+		ResourceManager.loadSound(SND_QUACK);
+		
 		// initialize images
 		ResourceManager.loadImage(IMG_BACKGROUND);
 		ResourceManager.loadImage(IMG_TILE_BLANK);
@@ -83,9 +90,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 		ResourceManager.loadImage(IMG_PATH_3WAY_RIGHT);
 		ResourceManager.loadImage(IMG_PATH_3WAY_UP);
 		ResourceManager.loadImage(IMG_PATH_4WAY);
-		
-		// initialize sounds
-		
+		ResourceManager.loadImage(IMG_PENGUIN);
 	}
 
 	public static void main(String args[]) {
