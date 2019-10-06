@@ -2,10 +2,10 @@
 
 - **[1]** Create a basic executable game, with a StartUp state
 - **[2]** Create a map and generate/render it
+- **[3]** Create enemy entities with sound and movement
 
 ## Open Issues ##
 
-- **[3]** Create enemy entities with sound and animation
 - **[4]** Create an objective entity that can take damage and has an animation/sound
 - **[5]** Create fortification entities that are buildable and breakable, also add animation/sound for said entities
 - **[6]** Add path finding and map interaction to enemy entities
