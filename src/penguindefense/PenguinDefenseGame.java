@@ -1,5 +1,7 @@
 package penguindefense;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -30,7 +32,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	//sounds
-	public static final String SND_QUACK = "penguindefense/resource/quack.mp3";
+	public static final String SND_QUACK = "penguindefense/resource/quack.wav";
 	
 	// images
 	public static final String IMG_BACKGROUND = "penguindefense/resource/background.png";
@@ -50,6 +52,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	
 	// entities
 	GameMap myMap;
+	ArrayList<Penguin> enemies;
 
 	/**
 	 * Constructor for a game of Penguin Defense.
@@ -72,6 +75,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public void initStatesList(GameContainer container) throws SlickException {
 		
 		addState(new StartUpState());
+		addState(new PlayingState());
 		
 		// initialize sounds
 		ResourceManager.loadSound(SND_QUACK);
