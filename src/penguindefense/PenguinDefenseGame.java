@@ -55,6 +55,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	
 	// entities
 	GameMap myMap;
+	Objective obj;
 	ArrayList<Penguin> enemies;
 
 	/**

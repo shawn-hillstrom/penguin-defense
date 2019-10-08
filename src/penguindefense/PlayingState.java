@@ -37,6 +37,8 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		myGame.obj.render(g);
+		
 		for (Penguin p : myGame.enemies) {
 			p.render(g);
 		}
@@ -48,11 +50,13 @@ public class PlayingState extends BasicGameState {
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
 		if (enemyCount < 1) {
-			Penguin newP = new Penguin(0, myGame.screenHeight/2, 2f);
+			Penguin newP = new Penguin(0, myGame.screenHeight/2, 2f, myGame);
 			newP.setVelocity(1, 0);
 			myGame.enemies.add(newP);
 			enemyCount++;
 		}
+		
+		myGame.obj.update(delta);
 		
 		for (Iterator<Penguin> i = myGame.enemies.iterator(); i.hasNext();) {
 			Penguin p = i.next();

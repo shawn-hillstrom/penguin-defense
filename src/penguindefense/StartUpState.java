@@ -34,15 +34,19 @@ public class StartUpState extends BasicGameState {
 		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2);
 		myGame.myMap.generate();
 		
+		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 10);
+		
 		myGame.enemies = new ArrayList<Penguin>(1000);
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		
-//		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
+		
+		myGame.obj.render(g);
 	}
 
 	@Override
