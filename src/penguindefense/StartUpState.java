@@ -2,6 +2,7 @@ package penguindefense;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -44,9 +45,15 @@ public class StartUpState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
+		g.setColor(Color.darkGray);
+		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
 		myGame.obj.render(g);
+		
+		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BANNER_START), 220, 180);
+		g.drawString("Press space to start...", 220, 540);
+		
 	}
 
 	@Override

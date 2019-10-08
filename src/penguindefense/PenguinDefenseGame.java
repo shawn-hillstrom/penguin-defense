@@ -36,6 +36,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public static final String SND_DAMAGE = "penguindefense/resource/damage.wav";
 	
 	// images
+	public static final String IMG_BANNER_START = "penguindefense/resource/banner-start.png";
 	public static final String IMG_BACKGROUND = "penguindefense/resource/background.png";
 	public static final String IMG_TILE_BLANK = "penguindefense/resource/tile-blank.png";
 	public static final String IMG_PATH_STRAIGHT_HOR = "penguindefense/resource/path-straight-horizontal.png";
@@ -86,6 +87,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 		ResourceManager.loadSound(SND_DAMAGE);
 		
 		// initialize images
+		ResourceManager.loadImage(IMG_BANNER_START);
 		ResourceManager.loadImage(IMG_BACKGROUND);
 		ResourceManager.loadImage(IMG_TILE_BLANK);
 		ResourceManager.loadImage(IMG_PATH_STRAIGHT_HOR);
