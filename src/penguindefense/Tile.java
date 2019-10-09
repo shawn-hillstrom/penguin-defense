@@ -15,7 +15,8 @@ import jig.ResourceManager;
 public class Tile extends Entity {
 
 	public String type;
-	private int fortIndex = -1;
+	private GameMap myMap;
+	private boolean fortified = false;
 	private boolean hover = false;
 	
 	/**
@@ -29,10 +30,13 @@ public class Tile extends Entity {
 	 * - type of tile, stored in a String
 	 * @param img
 	 * - image for tile
+	 * @param map
+	 * - reference to GameMap object
 	 */
-	public Tile(final float x, final float y, String type, String img) {
+	public Tile(final float x, final float y, String type, String img, GameMap map) {
 		super(x, y);
 		this.type = type;
+		myMap = map;
 		addImageWithBoundingBox(ResourceManager.getImage(img));
 	}
 	
@@ -43,17 +47,7 @@ public class Tile extends Entity {
 	 * - whether or not the tile is fortified
 	 */
 	public boolean isFortified() {
-		return (fortIndex >= 0) ? true : false;
-	}
-	
-	/**
-	 * Get the index in the respective object array for the current fortification.
-	 * 
-	 * @return
-	 * - index of fortification object
-	 */
-	public int getFortIndex() {
-		return fortIndex;
+		return fortified;
 	}
 	
 	/**
@@ -73,19 +67,59 @@ public class Tile extends Entity {
 				(getCoarseGrainedMaxX() > mx && getCoarseGrainedMinX() < mx) &&
 				(getCoarseGrainedMaxY() > my && getCoarseGrainedMinY() < my)) {
 			hover = true;
-			if (type != "turn" && fortIndex < 0) {
-				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
-			} else {
+			if (type == "turn" || fortified ||
+					((type == "straight-horizontal" || type == "straight-vertical") && myMap.wallCount >= myMap.maxWalls) ||
+					(type == "blank" && myMap.turretCount >= myMap.maxTurrets)) {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
+			} else {
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
 			}
 		} else if (hover &&
 				(getCoarseGrainedMaxX() < mx || getCoarseGrainedMinX() > mx) ||
 				(getCoarseGrainedMaxY() < my || getCoarseGrainedMinY() > my)) {
 			hover = false;
-			if (type != "turn" && fortIndex < 0) {
-				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
-			} else {
-				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
+			removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
+			removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
+		}
+		
+		if (hover && type != "turn") {
+			int xIndex = (int)(this.getX() - myMap.getCorner().getX() - 16)/32;
+			int yIndex = (int)(this.getY() - myMap.getCorner().getY() - 16)/32;
+			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !fortified) {
+				if (type == "straight-horizontal") {
+					if (myMap.wallCount < myMap.maxWalls) {
+						myMap.wallCount += 1;
+						myMap.walls[xIndex][yIndex] = new Wall(this.getX(), this.getY(), "vertical");
+						fortified = true;
+						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+					}
+				} else if (type == "straight-vertical") {
+					if (myMap.wallCount < myMap.maxWalls) {
+						myMap.wallCount += 1;
+						myMap.walls[xIndex][yIndex] = new Wall(this.getX(), this.getY(), "horizontal");
+						fortified = true;
+						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+					}
+				} else {
+					if (myMap.turretCount < myMap.maxTurrets) {
+						myMap.turretCount += 1;
+						myMap.turrets[xIndex][yIndex] = new Turret(this.getX(), this.getY(), 112f);
+						fortified = true;
+						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+					}
+				}
+			} else if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && fortified) {
+				if (type == "straight-horizontal" || type == "straight-vertical") {
+					myMap.walls[xIndex][yIndex] = null;
+					myMap.wallCount -= 1;
+					fortified = false;
+					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+				} else {
+					myMap.turrets[xIndex][yIndex] = null;
+					myMap.turretCount -= 1;
+					fortified = false;
+					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+				}
 			}
 		}
 	}

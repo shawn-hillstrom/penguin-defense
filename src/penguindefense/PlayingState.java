@@ -31,10 +31,26 @@ public class PlayingState extends BasicGameState {
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
+		
+		for (Wall[] l : myGame.myMap.walls) {
+			for (Wall w : l) {
+				if (w != null) {
+					w.render(g);
+				}
+			}
+		}
 				
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.render(g);
+			}
+		}
+		
+		for (Turret[] l : myGame.myMap.turrets) {
+			for (Turret t : l) {
+				if (t != null) {
+					t.render(g);
+				}
 			}
 		}
 		
@@ -64,9 +80,25 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		for (Wall[] l : myGame.myMap.walls) {
+			for (Wall w : l) {
+				if (w != null) {
+					w.update(delta);
+				}
+			}
+		}
+		
+		for (Turret[] l : myGame.myMap.turrets) {
+			for (Turret t : l) {
+				if (t != null) {
+					t.update(delta);
+				}
+			}
+		}
+		
 		myGame.obj.update(delta);
 		
-		for (Iterator<Penguin> i = myGame.enemies.iterator(); i.hasNext();) {
+		for (Iterator <Penguin> i = myGame.enemies.iterator(); i.hasNext();) {
 			Penguin p = i.next();
 			p.update(delta);
 		}

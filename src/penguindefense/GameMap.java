@@ -8,7 +8,6 @@ import jig.Vector;
  */
 public class GameMap {
 	
-	public Tile[][] map = new Tile[22][22];
 	private float[][] mapCost = {
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -33,7 +32,16 @@ public class GameMap {
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
-	private Vector center;
+	
+	public Tile[][] map = new Tile[22][22];
+	public Wall[][] walls = new Wall[22][22];
+	public Turret[][] turrets = new Turret[22][22];
+	public int maxWalls = 10;
+	public int maxTurrets = 10;
+	public int wallCount = 0;
+	public int turretCount = 0;
+	
+	private Vector corner;
 	
 	/**
 	 * Constructor for a game map.
@@ -44,14 +52,23 @@ public class GameMap {
 	 * - y coordinate for center of map
 	 */
 	public GameMap(float x, float y) {
-		center = new Vector(x, y);
+		corner = new Vector(x - (map.length * 32 / 2), y - (map.length * 32 / 2));
+	}
+	
+	/**
+	 * Get the corner of this map.
+	 * 
+	 * @return
+	 * - corner of the map as a Vector
+	 */
+	public Vector getCorner() {
+		return corner;
 	}
 	
 	/**
 	 * Generates a game map given the mapCost array.
 	 */
 	public void generate() {
-		Vector corner = new Vector(center.getX() - (map.length * 32 / 2), center.getY() - (map.length * 32 / 2));
 		for (int i = 0; i < mapCost.length; i++) {
 			for (int j = 0; j < mapCost.length; j++) {
 				String type = "blank";
@@ -86,14 +103,14 @@ public class GameMap {
 						type = "turn";
 						img = PenguinDefenseGame.IMG_PATH_TURN_DOWNRIGHT;
 					} else if (check.up && check.down) {
-						type = "straight";
+						type = "straight-vertical";
 						img = PenguinDefenseGame.IMG_PATH_STRAIGHT_VER;
 					} else if (check.left && check.right) {
-						type = "straight";
+						type = "straight-horizontal";
 						img = PenguinDefenseGame.IMG_PATH_STRAIGHT_HOR;
 					}
 				}
-				map[i][j] = new Tile(corner.getX() + (j * 32) + 16, corner.getY() + (i * 32) + 16, type, img);
+				map[i][j] = new Tile(corner.getX() + (j * 32) + 16, corner.getY() + (i * 32) + 16, type, img, this);
 			}
 		}
 	}

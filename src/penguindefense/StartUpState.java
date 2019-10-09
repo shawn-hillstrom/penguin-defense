@@ -37,7 +37,7 @@ public class StartUpState extends BasicGameState {
 		
 		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 10);
 		
-		myGame.enemies = new ArrayList<Penguin>(1000);
+		myGame.enemies = new ArrayList<Penguin>(myGame.maxEnemies);
 	}
 
 	@Override

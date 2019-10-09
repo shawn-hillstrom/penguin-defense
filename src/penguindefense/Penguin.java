@@ -94,7 +94,7 @@ public class Penguin extends Entity {
 	}
 	
 	/**
-	 * Update a tile based on how much time has passed...
+	 * Update a penguin based on how much time has passed...
 	 * 
 	 * @param delta
 	 * - number of milliseconds since last update

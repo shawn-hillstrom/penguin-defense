@@ -31,6 +31,9 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public final int screenWidth;
 	public final int screenHeight;
 	
+	// constraint variables
+	public int maxEnemies = 1000;
+	
 	//sounds
 	public static final String SND_QUACK = "penguindefense/resource/quack.wav";
 	public static final String SND_DAMAGE = "penguindefense/resource/damage.wav";
@@ -69,6 +72,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 	GameMap myMap;
 	Objective obj;
 	ArrayList<Penguin> enemies;
+	ArrayList<Wall> walls;
+	ArrayList<Turret> turrets;
 
 	/**
 	 * Constructor for a game of Penguin Defense.
