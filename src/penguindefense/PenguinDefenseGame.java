@@ -34,6 +34,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 	//sounds
 	public static final String SND_QUACK = "penguindefense/resource/quack.wav";
 	public static final String SND_DAMAGE = "penguindefense/resource/damage.wav";
+	public static final String SND_SHOT = "penguindefense/resource/shot.wav";
+	public static final String SND_BUILD = "penguindefense/resource/build.wav";
 	
 	// images
 	public static final String IMG_BANNER_START = "penguindefense/resource/banner-start.png";
@@ -53,6 +55,13 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public static final String IMG_PENGUIN = "penguindefense/resource/penguin.png";
 	public static final String IMG_IGLOO = "penguindefense/resource/igloo.png";
 	public static final String IMG_IGLOO_DAMAGED = "penguindefense/resource/igloo-damaged.png";
+	public static final String IMG_WALL_HOR = "penguindefense/resource/wall-horizontal.png";
+	public static final String IMG_WALL_VER = "penguindefense/resource/wall-vertical.png";
+	public static final String IMG_WALL_BROKEN_HOR = "penguindefense/resource/wall-broken-horizontal.png";
+	public static final String IMG_WALL_BROKEN_VER = "penguindefense/resource/wall-broken-vertical.png";
+	public static final String IMG_WALL_DAMAGED_HOR = "penguindefense/resource/wall-damaged-horizontal.png";
+	public static final String IMG_WALL_DAMAGED_VER = "penguindefense/resource/wall-damaged-vertical.png";
+	public static final String IMG_TURRET = "penguindefense/resource/turret.png";
 	
 	// entities
 	GameMap myMap;
@@ -85,6 +94,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 		// initialize sounds
 		ResourceManager.loadSound(SND_QUACK);
 		ResourceManager.loadSound(SND_DAMAGE);
+		ResourceManager.loadSound(SND_SHOT);
+		ResourceManager.loadSound(SND_BUILD);
 		
 		// initialize images
 		ResourceManager.loadImage(IMG_BANNER_START);
@@ -104,6 +115,13 @@ public class PenguinDefenseGame extends StateBasedGame {
 		ResourceManager.loadImage(IMG_PENGUIN);
 		ResourceManager.loadImage(IMG_IGLOO);
 		ResourceManager.loadImage(IMG_IGLOO_DAMAGED);
+		ResourceManager.loadImage(IMG_WALL_HOR);
+		ResourceManager.loadImage(IMG_WALL_VER);
+		ResourceManager.loadImage(IMG_WALL_BROKEN_HOR);
+		ResourceManager.loadImage(IMG_WALL_BROKEN_VER);
+		ResourceManager.loadImage(IMG_WALL_DAMAGED_HOR);
+		ResourceManager.loadImage(IMG_WALL_DAMAGED_VER);
+		ResourceManager.loadImage(IMG_TURRET);
 	}
 
 	public static void main(String args[]) {
