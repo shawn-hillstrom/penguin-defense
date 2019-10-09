@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -48,12 +49,19 @@ public class PlayingState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		Input input = container.getInput();
 		
 		if (enemyCount < 1) {
 			Penguin newP = new Penguin(0, myGame.screenHeight/2, 2f, myGame);
 			newP.setVelocity(1, 0);
 			myGame.enemies.add(newP);
 			enemyCount++;
+		}
+		
+		for (Tile[] l : myGame.myMap.map) {
+			for (Tile t : l) {
+				t.update(delta, input);
+			}
 		}
 		
 		myGame.obj.update(delta);

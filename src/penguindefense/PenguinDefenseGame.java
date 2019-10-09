@@ -62,6 +62,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public static final String IMG_WALL_DAMAGED_HOR = "penguindefense/resource/wall-damaged-horizontal.png";
 	public static final String IMG_WALL_DAMAGED_VER = "penguindefense/resource/wall-damaged-vertical.png";
 	public static final String IMG_TURRET = "penguindefense/resource/turret.png";
+	public static final String IMG_HIGHLIGHT_YES = "penguindefense/resource/highlight-yes.png";
+	public static final String IMG_HIGHLIGHT_NO = "penguindefense/resource/highlight-no.png";
 	
 	// entities
 	GameMap myMap;
@@ -122,6 +124,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 		ResourceManager.loadImage(IMG_WALL_DAMAGED_HOR);
 		ResourceManager.loadImage(IMG_WALL_DAMAGED_VER);
 		ResourceManager.loadImage(IMG_TURRET);
+		ResourceManager.loadImage(IMG_HIGHLIGHT_YES);
+		ResourceManager.loadImage(IMG_HIGHLIGHT_NO);
 	}
 
 	public static void main(String args[]) {
