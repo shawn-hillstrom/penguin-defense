@@ -4,6 +4,7 @@ import org.newdawn.slick.Input;
 
 import jig.Entity;
 import jig.ResourceManager;
+import jig.Vector;
 
 /**
  * A class representing a tile entity. Tiles make up the game map and are stationary.
@@ -83,39 +84,38 @@ public class Tile extends Entity {
 		}
 		
 		if (hover && type != "turn") {
-			int xIndex = (int)(this.getX() - myMap.getCorner().getX() - 16)/32;
-			int yIndex = (int)(this.getY() - myMap.getCorner().getY() - 16)/32;
+			Vector hashIndex = myMap.hashPos(this);
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !fortified) {
 				if (type == "straight-horizontal") {
 					if (myMap.wallCount < myMap.maxWalls) {
 						myMap.wallCount += 1;
-						myMap.walls[xIndex][yIndex] = new Wall(this.getX(), this.getY(), "vertical");
+						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Wall(this.getX(), this.getY(), "vertical");
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else if (type == "straight-vertical") {
 					if (myMap.wallCount < myMap.maxWalls) {
 						myMap.wallCount += 1;
-						myMap.walls[xIndex][yIndex] = new Wall(this.getX(), this.getY(), "horizontal");
+						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Wall(this.getX(), this.getY(), "horizontal");
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else {
 					if (myMap.turretCount < myMap.maxTurrets) {
 						myMap.turretCount += 1;
-						myMap.turrets[xIndex][yIndex] = new Turret(this.getX(), this.getY(), 112f);
+						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Turret(this.getX(), this.getY(), 112f);
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				}
 			} else if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && fortified) {
 				if (type == "straight-horizontal" || type == "straight-vertical") {
-					myMap.walls[xIndex][yIndex] = null;
+					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.wallCount -= 1;
 					fortified = false;
 					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				} else {
-					myMap.turrets[xIndex][yIndex] = null;
+					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.turretCount -= 1;
 					fortified = false;
 					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();

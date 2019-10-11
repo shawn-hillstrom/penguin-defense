@@ -10,6 +10,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import jig.ResourceManager;
+import jig.Vector;
 
 public class PlayingState extends BasicGameState {
 	
@@ -84,6 +85,10 @@ public class PlayingState extends BasicGameState {
 			for (Wall w : l) {
 				if (w != null) {
 					w.update(delta);
+					if (w.getLives() <= 0) {
+						Vector hashIndex = myGame.myMap.hashPos(w);
+						myGame.myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
+					}
 				}
 			}
 		}

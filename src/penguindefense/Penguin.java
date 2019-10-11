@@ -2,7 +2,6 @@ package penguindefense;
 
 import java.util.Random;
 
-import jig.Collision;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -93,6 +92,25 @@ public class Penguin extends Entity {
 		return speed;
 	}
 	
+	private boolean collidesWith(Entity e) {
+		return (collides(e) != null) ? true : false;
+	}
+	
+	public Encounter getEncounter() {
+		if (collidesWith(myGame.obj)) {
+			return new Encounter(myGame.obj, Encounter.E_OBJ);
+		} else {
+			for (Wall [] l : myGame.myMap.walls) {
+				for (Wall w : l) {
+					if (w != null && collidesWith(w)) {
+						return new Encounter(w, Encounter.E_WALL);
+					}
+				}
+			}
+		}
+		return new Encounter(null, Encounter.E_NULL);
+	}
+	
 	/**
 	 * Update a penguin based on how much time has passed...
 	 * 
@@ -105,10 +123,10 @@ public class Penguin extends Entity {
 		if (RNG.nextInt(300) == 0)
 			ResourceManager.getSound(PenguinDefenseGame.SND_QUACK).play();
 		
-		Collision objCol = this.collides(myGame.obj);
-		if (objCol != null) {
+		Encounter curE = getEncounter();
+		if (curE.canInteract()) {
 			if (count >= 1000) {
-				myGame.obj.damage();
+				curE.interact();
 				count = 0;
 			}
 			count += delta;
@@ -116,5 +134,35 @@ public class Penguin extends Entity {
 			count = 1000;
 			translate(velocity); // move the penguin
 		}
+	}
+	
+	private class Encounter {
+		
+		public static final int E_NULL = 0;
+		public static final int E_OBJ = 1;
+		public static final int E_WALL = 2;
+		
+		private Entity e;
+		private int eflag;
+		
+		public Encounter(Entity e, int eflag) {
+			this.e = e;
+			this.eflag = eflag;
+		}
+		
+		public boolean canInteract() {
+			return (e != null) ? true : false;
+		}
+		
+		public void interact() {
+			if (eflag == E_OBJ) {
+				Objective o = (Objective)e;
+				o.damage();
+			} else {
+				Wall w = (Wall)e;
+				w.damage();
+			}
+		}
+		
 	}
 }

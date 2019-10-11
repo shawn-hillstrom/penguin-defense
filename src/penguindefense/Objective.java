@@ -56,10 +56,10 @@ public class Objective extends Entity {
 	 */
 	public void damage() {
 		lives -= 1;
+		ResourceManager.getSound(PenguinDefenseGame.SND_DAMAGE).play();
 		if (!damaged) {
 			damaged = true;
 			addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_IGLOO_DAMAGED));
-			ResourceManager.getSound(PenguinDefenseGame.SND_DAMAGE).play();
 		}
 	}
 	

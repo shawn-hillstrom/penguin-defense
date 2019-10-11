@@ -1,5 +1,6 @@
 package penguindefense;
 
+import jig.Entity;
 import jig.Vector;
 
 /**
@@ -53,6 +54,12 @@ public class GameMap {
 	 */
 	public GameMap(float x, float y) {
 		corner = new Vector(x - (map.length * 32 / 2), y - (map.length * 32 / 2));
+	}
+	
+	public Vector hashPos(Entity e) {
+		int xIndex = (int)(e.getX() - corner.getX() - 16)/32;
+		int yIndex = (int)(e.getY() - corner.getY() - 16)/32;
+		return new Vector(xIndex, yIndex);
 	}
 	
 	/**

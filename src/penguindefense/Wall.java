@@ -6,8 +6,10 @@ import jig.ResourceManager;
 public class Wall extends Entity {
 
 	public String type;
-	private int lives = 100;
-//	private int count = 200;
+	private int lives = 60;
+	private boolean broken = false;
+	private boolean damaged = false;
+	private int count = 0;
 	
 	/**
 	 * Constructor for a Wall Entity.
@@ -54,7 +56,16 @@ public class Wall extends Entity {
 	 * damage with a sound and an animation.
 	 */
 	public void damage() {
-		
+		lives -= 1;
+		ResourceManager.getSound(PenguinDefenseGame.SND_DAMAGE).play();
+		if (!damaged) {
+			damaged = true;
+			if (type == "horizontal") {
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_DAMAGED_HOR));
+			} else {
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_DAMAGED_VER));
+			}
+		}
 	}
 	
 	/**
@@ -65,5 +76,25 @@ public class Wall extends Entity {
 	 */
 	public void update(final int delta) {
 		
+		if (damaged) {
+			count += delta;
+			if (count >= 200) {
+				damaged = false;
+				count = 0;
+				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_DAMAGED_HOR));
+				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_DAMAGED_VER));
+			}
+		}
+		
+		if (lives <= 10 && !broken) {
+			broken = true;
+			if (type == "horizontal") {
+				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_HOR));
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_BROKEN_HOR));
+			} else {
+				removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_VER));
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_BROKEN_VER));
+			}
+		}
 	}
 }
