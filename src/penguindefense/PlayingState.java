@@ -16,6 +16,7 @@ import jig.Vector;
 public class PlayingState extends BasicGameState {
 	
 	private int enemyCount = 0;
+	private int time = 0;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -58,6 +59,10 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		for (Laser l : myGame.lasers) {
+			g.drawLine(l.start.getX(), l.start.getY(), l.end.getX(), l.end.getY());
+		}
+		
 		myGame.obj.render(g);
 		
 		for (Penguin p : myGame.enemies) {
@@ -71,11 +76,13 @@ public class PlayingState extends BasicGameState {
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		Input input = container.getInput();
 		
-		if (enemyCount < 1) {
+		time += delta;
+		if (time >= 500) {
 			Penguin newP = new Penguin(0, myGame.screenHeight/2, 2f, myGame);
 			newP.setVelocity(1, 0);
 			myGame.enemies.add(newP);
 			enemyCount++;
+			time = 0;
 		}
 		
 		for (Tile[] l : myGame.myMap.map) {
@@ -109,6 +116,15 @@ public class PlayingState extends BasicGameState {
 		for (Iterator <Penguin> i = myGame.enemies.iterator(); i.hasNext();) {
 			Penguin p = i.next();
 			p.update(delta);
+		}
+		
+		for (Iterator <Laser> i = myGame.lasers.iterator(); i.hasNext();) {
+			Laser l = i.next();
+			if (l.isActive()) {
+				l.update(delta);
+			} else {
+				i.remove();
+			}
 		}
 	}
 

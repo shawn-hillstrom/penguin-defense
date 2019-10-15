@@ -34,6 +34,7 @@ public class GameMap {
 			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
 	
+	public PenguinDefenseGame myGame;
 	public Tile[][] map = new Tile[22][22];
 	public Wall[][] walls = new Wall[22][22];
 	public Turret[][] turrets = new Turret[22][22];
@@ -52,8 +53,9 @@ public class GameMap {
 	 * @param y
 	 * - y coordinate for center of map
 	 */
-	public GameMap(float x, float y) {
+	public GameMap(float x, float y, PenguinDefenseGame game) {
 		corner = new Vector(x - (map.length * 32 / 2), y - (map.length * 32 / 2));
+		myGame = game;
 	}
 	
 	public Vector hashPos(Entity e) {

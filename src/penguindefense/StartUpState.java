@@ -32,12 +32,14 @@ public class StartUpState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
-		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2);
+		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
 		myGame.myMap.generate();
 		
 		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 10);
 		
 		myGame.enemies = new ArrayList<Penguin>(myGame.maxEnemies);
+		
+		myGame.lasers = new ArrayList<Laser>(myGame.myMap.maxTurrets);
 	}
 
 	@Override

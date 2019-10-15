@@ -1,12 +1,15 @@
 package penguindefense;
 
+import java.util.Iterator;
+
 import jig.Entity;
 import jig.ResourceManager;
 
 public class Turret extends Entity {
 
 	private float range;
-//	private int count = 500;
+	private GameMap myMap;
+	private int count = 500;
 	
 	/**
 	 * Constructor for a Turret Entity.
@@ -18,9 +21,10 @@ public class Turret extends Entity {
 	 * @param r
 	 * - range of turret
 	 */
-	public Turret(final float x, final float y, float r) {
+	public Turret(final float x, final float y, float r, GameMap map) {
 		super(x, y);
 		range = r;
+		myMap = map;
 		addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_TURRET));
 	}
 	
@@ -44,6 +48,12 @@ public class Turret extends Entity {
 		return range;
 	}
 	
+	public void fire (Penguin p) {
+		ResourceManager.getSound(PenguinDefenseGame.SND_SHOT).play();
+		myMap.myGame.lasers.add(new Laser(this.getPosition(), p.getPosition()));
+		myMap.myGame.enemies.remove(p);
+	}
+	
 	/**
 	 * Update a turret based on how much time has passed...
 	 * 
@@ -52,5 +62,24 @@ public class Turret extends Entity {
 	 */
 	public void update(final int delta) {
 		
+		Penguin target = null;
+		float distance = range;
+		
+		if (count >= 500) {
+			for (Iterator <Penguin> i = myMap.myGame.enemies.iterator(); i.hasNext();) {
+				Penguin p = i.next();
+				float d = this.getPosition().distance(p.getPosition());
+				if (d <= distance) {
+					target = p;
+					distance = d;
+				}
+			}
+			if (target != null) {
+				fire(target);
+				count = 0;
+			}
+		} else {
+			count += delta;
+		}
 	}
 }

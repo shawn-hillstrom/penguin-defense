@@ -103,7 +103,7 @@ public class Tile extends Entity {
 				} else {
 					if (myMap.turretCount < myMap.maxTurrets) {
 						myMap.turretCount += 1;
-						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Turret(this.getX(), this.getY(), 112f);
+						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Turret(this.getX(), this.getY(), 144f, myMap);
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}

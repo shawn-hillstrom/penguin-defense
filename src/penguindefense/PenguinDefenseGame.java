@@ -72,8 +72,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 	GameMap myMap;
 	Objective obj;
 	ArrayList<Penguin> enemies;
-	ArrayList<Wall> walls;
-	ArrayList<Turret> turrets;
+	ArrayList<Laser> lasers;
 
 	/**
 	 * Constructor for a game of Penguin Defense.
