@@ -2,6 +2,7 @@ package penguindefense;
 
 import java.util.Iterator;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -30,6 +31,8 @@ public class PlayingState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		
+		g.setColor(Color.red);
 		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
