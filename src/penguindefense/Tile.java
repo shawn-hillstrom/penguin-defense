@@ -1,5 +1,7 @@
 package penguindefense;
 
+import java.util.Stack;
+
 import org.newdawn.slick.Input;
 
 import jig.Entity;
@@ -13,7 +15,7 @@ import jig.Vector;
  * Tiles that support fortification wait for a player to click on them, and if the 
  * player has sufficient funds, a respective fortification is built.
  */
-public class Tile extends Entity {
+public class Tile extends Entity implements Comparable<Tile> {
 
 	public String type;
 	public float d;
@@ -55,6 +57,35 @@ public class Tile extends Entity {
 	
 	public void setFortified(boolean b) {
 		fortified = b;
+	}
+	
+	public Stack<Tile> successors() {
+		
+		Stack<Tile> s = new Stack<Tile>();
+		Vector hashPos = myMap.hashPos(this);
+		
+		if (hashPos.getX() - 1 >= 0)
+			s.push(myMap.map[(int)hashPos.getY()][(int)hashPos.getX() - 1]);
+		if (hashPos.getX() + 1 < myMap.map.length)
+			s.push(myMap.map[(int)hashPos.getY()][(int)hashPos.getX() + 1]);
+		if (hashPos.getY() - 1 >= 0)
+			s.push(myMap.map[(int)hashPos.getY() - 1][(int)hashPos.getX()]);
+		if (hashPos.getY() + 1 < myMap.map.length)
+			s.push(myMap.map[(int)hashPos.getY() + 1][(int)hashPos.getX()]);
+		
+		return s;
+	}
+	
+	@Override
+	public int compareTo(Tile o) {
+		float dif = this.d - o.d;
+		if (dif > 0) {
+			return 1;
+		} else if (dif < 0) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
