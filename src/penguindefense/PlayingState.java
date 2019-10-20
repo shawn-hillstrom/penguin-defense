@@ -20,6 +20,7 @@ public class PlayingState extends BasicGameState {
 //	private int enemyCount = 0;
 	private int time = 0;
 	private int thresh = 500;
+	private boolean debug = false;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -72,11 +73,13 @@ public class PlayingState extends BasicGameState {
 		myGame.obj.render(g);
 		
 		// debug dijkstra's
-		g.setColor(Color.black);
-		for (Tile[] l : myGame.myMap.map) {
-			for (Tile t : l) {
-				if (t.pi != null) {
-					g.drawLine(t.getX(), t.getY(), t.pi.getX(), t.pi.getY());
+		if (debug) {
+			g.setColor(Color.black);
+			for (Tile[] l : myGame.myMap.map) {
+				for (Tile t : l) {
+					if (t.pi != null) {
+						g.drawLine(t.getX(), t.getY(), t.pi.getX(), t.pi.getY());
+					}
 				}
 			}
 		}
@@ -88,6 +91,10 @@ public class PlayingState extends BasicGameState {
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		Input input = container.getInput();
 		Random rng = new Random();
+		
+		// toggle debug
+		if (input.isKeyPressed(Input.KEY_TAB))
+			debug = !debug;
 		
 		time += delta;
 		if (time >= thresh) {

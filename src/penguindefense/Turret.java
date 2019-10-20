@@ -31,7 +31,7 @@ public class Turret extends Entity {
 	public void updateCost(double c) {
 		for (Tile[] l : myMap.map) {
 			for (Tile t : l) {
-				if (getPosition().distance(t.getPosition()) <= range) {
+				if (t.type != "blank" && getPosition().distance(t.getPosition()) <= range) {
 					myMap.setMapCost(t, c);
 				}
 			}
