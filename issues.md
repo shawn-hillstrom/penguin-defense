@@ -7,14 +7,14 @@
 - **[5]** Create a start screen banner and instructions to start
 - **[6]** Create fortification entities that are buildable and breakable, also add animation/sound for said entities
 - **[7]** Make turrets attack enemy entities that are within range
+- **[8]** Add path finding and map interaction to enemy entities utilizing Dijkstra's algorithm
 
 ## Open Issues ##
 
-- **[8]** Add path finding and map interaction to enemy entities
 - **[9]** Add score and currency systems
 - **[10]** Add an end game condition and an end game screen
 - **[11]** Add enemy waves
-- **[12]** [HIGH BAR] Add upgradable turrets and walls
 - **[13]** [HIGH BAR] Add random map generation
 - **[14]** [HIGH BAR] Add music
+- **[12]** [HIGH BAR] Add upgradable turrets and walls
 - **[15]** [HIGH BAR] Add extra sounds/animations
