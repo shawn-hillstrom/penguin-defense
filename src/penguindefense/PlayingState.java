@@ -1,6 +1,7 @@
 package penguindefense;
 
 import java.util.Iterator;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -15,8 +16,10 @@ import jig.Vector;
 
 public class PlayingState extends BasicGameState {
 	
-	private int enemyCount = 0;
+//	private int wave = 1;
+//	private int enemyCount = 0;
 	private int time = 0;
+	private int thresh = 500;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -43,12 +46,13 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		for (Penguin p : myGame.enemies) {
+			p.render(g);
+		}
+		
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.render(g);
-				if (t.pi != null) {
-//					g.drawString("" + t.dVal, t.getX(), t.getY());
-				}
 			}
 		}
 		
@@ -67,10 +71,6 @@ public class PlayingState extends BasicGameState {
 		
 		myGame.obj.render(g);
 		
-		for (Penguin p : myGame.enemies) {
-			p.render(g);
-		}
-		
 		// debug dijkstra's
 		g.setColor(Color.black);
 		for (Tile[] l : myGame.myMap.map) {
@@ -87,13 +87,13 @@ public class PlayingState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		Input input = container.getInput();
+		Random rng = new Random();
 		
 		time += delta;
-		if (time >= 500) {
-			Penguin newP = new Penguin(0, myGame.screenHeight/2, 2f, myGame);
-			newP.setVelocity(1, 0);
+		if (time >= thresh) {
+			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, myGame);
+			newP.setObjective(myGame.myMap.mapStart);
 			myGame.enemies.add(newP);
-			enemyCount++;
 			time = 0;
 		}
 		

@@ -17,6 +17,7 @@ public class Penguin extends Entity {
 	
 	private Vector velocity;
 	private float speed;
+	private Entity obj;
 	private PenguinDefenseGame myGame;
 	private int count = 1000;
 	
@@ -71,6 +72,15 @@ public class Penguin extends Entity {
 		return velocity;
 	}
 	
+	public void setObjective(Entity e) {
+		obj = e;
+		setVelocity(new Vector(e.getX() - this.getX(), e.getY() - this.getY()).unit());
+	}
+	
+	public Entity getObjective() {
+		return obj;
+	}
+	
 	/**
 	 * Set the speed of this entity.
 	 * 
@@ -122,6 +132,15 @@ public class Penguin extends Entity {
 		Random RNG = new Random();
 		if (RNG.nextInt(300) == 0)
 			ResourceManager.getSound(PenguinDefenseGame.SND_QUACK).play();
+		
+		if (obj != myGame.obj && getPosition().distance(obj.getPosition()) <= speed) {
+			Tile curTile = (Tile)obj;
+			if (curTile.pi != null) {
+				setObjective(curTile.pi);
+			} else {
+				setObjective(myGame.obj);	
+			}
+		}
 		
 		Encounter curE = getEncounter();
 		if (curE.canInteract()) {
