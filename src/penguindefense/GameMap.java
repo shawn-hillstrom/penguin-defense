@@ -1,5 +1,9 @@
 package penguindefense;
 
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Stack;
+
 import jig.Entity;
 import jig.Vector;
 
@@ -9,33 +13,35 @@ import jig.Vector;
  */
 public class GameMap {
 	
-	private float[][] mapCost = {
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0},
-			{1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
-			{1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-			{1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1},
-			{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1},
-			{1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	private double[][] mapCost = {
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 9, 9, 9, 9, 9, 1, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 1, 9, 1, 1, 1, 9, 9, 9, 1, 9, 9, 9, 1, 1, 1},
+			{9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 9, 1, 9, 9, 9, 1, 9, 9, 9, 1, 9, 9},
+			{9, 9, 9, 9, 1, 1, 1, 1, 9, 9, 9, 1, 9, 1, 1, 1, 1, 1, 1, 1, 9, 9},
+			{9, 9, 9, 1, 1, 9, 9, 9, 9, 9, 9, 1, 1, 1, 9, 1, 9, 9, 9, 9, 9, 9},
+			{1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 1, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 1, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 1, 1, 1, 9, 9, 9, 9},
+			{9, 9, 9, 1, 1, 1, 1, 1, 1, 9, 9, 9, 1, 9, 9, 9, 9, 1, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 1, 1, 9, 9, 9, 9, 1, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 9, 9, 9, 1, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 9, 9, 9, 1, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 9, 9, 1, 1, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 9, 9, 9, 1, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9},
+			{9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}
 	};
 	
 	public PenguinDefenseGame myGame;
 	public Tile[][] map = new Tile[22][22];
+	public Tile mapStart = null;
+	public Tile mapEnd = null;
 	public Wall[][] walls = new Wall[22][22];
 	public Turret[][] turrets = new Turret[22][22];
 	public int maxWalls = 10;
@@ -74,6 +80,50 @@ public class GameMap {
 		return corner;
 	}
 	
+	public void setMapCost(Tile t, double c) {
+		Vector hashIndex = hashPos(t);
+		mapCost[(int)hashIndex.getY()][(int)hashIndex.getX()] = c;
+	}
+	
+	private double weight(Tile u, Tile v) {
+		Vector uIndex = hashPos(u);
+		Vector vIndex = hashPos(v);
+		double wu = mapCost[(int)uIndex.getY()][(int)uIndex.getX()]/2;
+		double wv = mapCost[(int)vIndex.getY()][(int)vIndex.getX()]/2;
+		return wu + wv;
+	}
+	
+	private void relax(Tile u, Tile v) {
+		double w = weight(u, v);
+		if (v.dVal > u.dVal + w) {
+			v.dVal = u.dVal + w;
+			v.pi = u;
+		}
+	}
+	
+	public void dijkstra() {
+		
+		Tile[][] s = new Tile[22][22];
+		PriorityQueue<Tile> q = new PriorityQueue<Tile>(map.length * map.length);
+		
+		q.add(mapEnd);
+		
+		while (q.peek() != null) {
+			Tile min = q.poll();
+			Stack<Tile> adj = min.successors();
+			Vector minIndex = hashPos(min);
+			s[(int)minIndex.getY()][(int)minIndex.getX()] = min;
+			while (!adj.empty()) {
+				Tile nextAdj = adj.pop();
+				Vector adjIndex = hashPos(nextAdj);
+				if (s[(int)adjIndex.getY()][(int)adjIndex.getX()] == null) {
+					relax(min, nextAdj);
+					q.add(nextAdj);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Generates a game map given the mapCost array.
 	 */
@@ -82,7 +132,7 @@ public class GameMap {
 			for (int j = 0; j < mapCost.length; j++) {
 				String type = "blank";
 				String img = PenguinDefenseGame.IMG_TILE_BLANK;
-				if (mapCost[i][j] == 0) {
+				if (mapCost[i][j] == 1) {
 					PathCheck check = new PathCheck(i, j);
 					if (check.up && check.down && check.left && check.right) {
 						type = "turn";
@@ -119,7 +169,14 @@ public class GameMap {
 						img = PenguinDefenseGame.IMG_PATH_STRAIGHT_HOR;
 					}
 				}
-				map[i][j] = new Tile(corner.getX() + (j * 32) + 16, corner.getY() + (i * 32) + 16, type, img, this);
+				Tile t = new Tile(corner.getX() + (j * 32) + 16, corner.getY() + (i * 32) + 16, type, img, this);
+				map[i][j] = t;
+				if (j == 0 && type == "straight-horizontal") {
+					mapStart = t;
+				} else if (j == mapCost.length - 1 && type == "straight-horizontal") {
+					mapEnd = t;
+					t.dVal = 0;
+				}
 			}
 		}
 	}
@@ -135,13 +192,13 @@ public class GameMap {
 		public boolean right = false;
 		
 		public PathCheck(int i, int j) {
-			if (i - 1 < 0 || mapCost[i - 1][j] == 0)
+			if (i - 1 < 0 || mapCost[i - 1][j] == 1)
 				up = true;
-			if (i + 1 >= mapCost.length || mapCost[i + 1][j] == 0)
+			if (i + 1 >= mapCost.length || mapCost[i + 1][j] == 1)
 				down = true;
-			if (j - 1 < 0 || mapCost[i][j - 1] == 0)
+			if (j - 1 < 0 || mapCost[i][j - 1] == 1)
 				left = true;
-			if (j + 1 >= mapCost.length || mapCost[i][j + 1] == 0)
+			if (j + 1 >= mapCost.length || mapCost[i][j + 1] == 1)
 				right = true;
 		}
 	}

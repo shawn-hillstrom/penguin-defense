@@ -33,8 +33,6 @@ public class PlayingState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
-		g.setColor(Color.red);
-		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
 		for (Wall[] l : myGame.myMap.walls) {
@@ -44,10 +42,13 @@ public class PlayingState extends BasicGameState {
 				}
 			}
 		}
-				
+		
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.render(g);
+				if (t.pi != null) {
+//					g.drawString("" + t.dVal, t.getX(), t.getY());
+				}
 			}
 		}
 		
@@ -59,6 +60,7 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		g.setColor(Color.red);
 		for (Laser l : myGame.lasers) {
 			g.drawLine(l.start.getX(), l.start.getY(), l.end.getX(), l.end.getY());
 		}
@@ -67,6 +69,16 @@ public class PlayingState extends BasicGameState {
 		
 		for (Penguin p : myGame.enemies) {
 			p.render(g);
+		}
+		
+		// debug dijkstra's
+		g.setColor(Color.black);
+		for (Tile[] l : myGame.myMap.map) {
+			for (Tile t : l) {
+				if (t.pi != null) {
+					g.drawLine(t.getX(), t.getY(), t.pi.getX(), t.pi.getY());
+				}
+			}
 		}
 	}
 

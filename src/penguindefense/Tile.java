@@ -18,8 +18,8 @@ import jig.Vector;
 public class Tile extends Entity implements Comparable<Tile> {
 
 	public String type;
-	public float d;
-	public Tile pi;
+	public double dVal = Double.POSITIVE_INFINITY;
+	public Tile pi = null;
 	private GameMap myMap;
 	private boolean fortified = false;
 	private boolean hover = false;
@@ -78,7 +78,7 @@ public class Tile extends Entity implements Comparable<Tile> {
 	
 	@Override
 	public int compareTo(Tile o) {
-		float dif = this.d - o.d;
+		double dif = this.dVal - o.dVal;
 		if (dif > 0) {
 			return 1;
 		} else if (dif < 0) {
@@ -109,7 +109,6 @@ public class Tile extends Entity implements Comparable<Tile> {
 					((type == "straight-horizontal" || type == "straight-vertical") && myMap.wallCount >= myMap.maxWalls) ||
 					(type == "blank" && myMap.turretCount >= myMap.maxTurrets)) {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
-				System.out.printf("%b\n", fortified);
 			} else {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
 			}

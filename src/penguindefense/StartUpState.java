@@ -34,6 +34,7 @@ public class StartUpState extends BasicGameState {
 		
 		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
 		myGame.myMap.generate();
+		myGame.myMap.dijkstra();
 		
 		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 10);
 		
