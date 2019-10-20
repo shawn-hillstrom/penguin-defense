@@ -109,6 +109,7 @@ public class PlayingState extends BasicGameState {
 					w.update(delta);
 					if (w.getLives() <= 0) {
 						Vector hashIndex = myGame.myMap.hashPos(w);
+						myGame.myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
 						myGame.myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 						myGame.myMap.map[(int)hashIndex.getY()][(int)hashIndex.getX()].setFortified(false);
 						myGame.myMap.wallCount -= 1;

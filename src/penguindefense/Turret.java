@@ -28,6 +28,17 @@ public class Turret extends Entity {
 		addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_TURRET));
 	}
 	
+	public void updateCost(double c) {
+		for (Tile[] l : myMap.map) {
+			for (Tile t : l) {
+				if (getPosition().distance(t.getPosition()) <= range) {
+					myMap.setMapCost(t, c);
+				}
+			}
+		}
+		myMap.dijkstra();
+	}
+	
 	/**
 	 * Set the range of this turret.
 	 * 

@@ -79,8 +79,8 @@ public class GameMap {
 		return corner;
 	}
 	
-	public void setMapCost(Tile t, double c) {
-		Vector hashIndex = hashPos(t);
+	public void setMapCost(Entity e, double c) {
+		Vector hashIndex = hashPos(e);
 		mapCost[(int)hashIndex.getY()][(int)hashIndex.getX()] = c;
 	}
 	
@@ -100,10 +100,21 @@ public class GameMap {
 		}
 	}
 	
+	private void initializeEmptySource(Tile s) {
+		for (Tile[] l : map) {
+			for (Tile t : l) {
+				t.dVal = Double.POSITIVE_INFINITY;
+			}
+		}
+		s.dVal = 0;
+	}
+	
 	public void dijkstra() {
 		
 		Tile[][] s = new Tile[22][22];
 		PriorityQueue<Tile> q = new PriorityQueue<Tile>(map.length * map.length);
+		
+		initializeEmptySource(mapEnd);
 		
 		q.add(mapEnd);
 		
@@ -174,7 +185,6 @@ public class GameMap {
 					mapStart = t;
 				} else if (j == mapCost.length - 1 && type == "straight-horizontal") {
 					mapEnd = t;
-					t.dVal = 0;
 				}
 			}
 		}

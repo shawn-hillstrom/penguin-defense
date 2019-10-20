@@ -18,7 +18,7 @@ import jig.Vector;
 public class Tile extends Entity implements Comparable<Tile> {
 
 	public String type;
-	public double dVal = Double.POSITIVE_INFINITY;
+	public double dVal = 0;
 	public Tile pi = null;
 	private GameMap myMap;
 	private boolean fortified = false;
@@ -64,14 +64,26 @@ public class Tile extends Entity implements Comparable<Tile> {
 		Stack<Tile> s = new Stack<Tile>();
 		Vector hashPos = myMap.hashPos(this);
 		
-		if (hashPos.getX() - 1 >= 0)
-			s.push(myMap.map[(int)hashPos.getY()][(int)hashPos.getX() - 1]);
-		if (hashPos.getX() + 1 < myMap.map.length)
-			s.push(myMap.map[(int)hashPos.getY()][(int)hashPos.getX() + 1]);
-		if (hashPos.getY() - 1 >= 0)
-			s.push(myMap.map[(int)hashPos.getY() - 1][(int)hashPos.getX()]);
-		if (hashPos.getY() + 1 < myMap.map.length)
-			s.push(myMap.map[(int)hashPos.getY() + 1][(int)hashPos.getX()]);
+		if (hashPos.getX() - 1 >= 0) {
+			Tile t = myMap.map[(int)hashPos.getY()][(int)hashPos.getX() - 1];
+			if (t.type != "blank")
+				s.push(t);
+		}
+		if (hashPos.getX() + 1 < myMap.map.length) {
+			Tile t = myMap.map[(int)hashPos.getY()][(int)hashPos.getX() + 1];
+			if (t.type != "blank")
+				s.push(t);
+		}
+		if (hashPos.getY() - 1 >= 0) {
+			Tile t = myMap.map[(int)hashPos.getY() - 1][(int)hashPos.getX()];
+			if (t.type != "blank")
+				s.push(t);
+		}
+		if (hashPos.getY() + 1 < myMap.map.length) {
+			Tile t = myMap.map[(int)hashPos.getY() + 1][(int)hashPos.getX()];
+			if (t.type != "blank")
+				s.push(t);
+		}
 		
 		return s;
 	}
@@ -125,33 +137,41 @@ public class Tile extends Entity implements Comparable<Tile> {
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !fortified) {
 				if (type == "straight-horizontal") {
 					if (myMap.wallCount < myMap.maxWalls) {
+						Wall w = new Wall(this.getX(), this.getY(), "vertical", myMap);
+						w.updateCost(5);
 						myMap.wallCount += 1;
-						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Wall(this.getX(), this.getY(), "vertical");
+						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else if (type == "straight-vertical") {
 					if (myMap.wallCount < myMap.maxWalls) {
+						Wall w = new Wall(this.getX(), this.getY(), "horizontal", myMap);
+						w.updateCost(5);
 						myMap.wallCount += 1;
-						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Wall(this.getX(), this.getY(), "horizontal");
+						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else {
 					if (myMap.turretCount < myMap.maxTurrets) {
+						Turret t = new Turret(this.getX(), this.getY(), 144f, myMap);
+						t.updateCost(8);
 						myMap.turretCount += 1;
-						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = new Turret(this.getX(), this.getY(), 144f, myMap);
+						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = t;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				}
 			} else if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && fortified) {
 				if (type == "straight-horizontal" || type == "straight-vertical") {
+					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
 					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.wallCount -= 1;
 					fortified = false;
 					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				} else {
+					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
 					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.turretCount -= 1;
 					fortified = false;

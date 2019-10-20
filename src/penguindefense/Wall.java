@@ -6,6 +6,7 @@ import jig.ResourceManager;
 public class Wall extends Entity {
 
 	public String type;
+	private GameMap myMap;
 	private int lives = 60;
 	private boolean broken = false;
 	private boolean damaged = false;
@@ -21,14 +22,20 @@ public class Wall extends Entity {
 	 * @param t
 	 * - type of wall (horizontal or vertical)
 	 */
-	public Wall(final float x, final float y, String t) {
+	public Wall(final float x, final float y, String t, GameMap map) {
 		super(x, y);
 		type = t;
+		myMap = map;
 		if (t == "horizontal") {
 			addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_HOR));
 		} else {
 			addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_WALL_VER));
 		}
+	}
+	
+	public void updateCost(double c) {
+		myMap.setMapCost(this, c);
+		myMap.dijkstra();
 	}
 	
 	/**
