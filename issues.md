@@ -8,10 +8,10 @@
 - **[6]** Create fortification entities that are buildable and breakable, also add animation/sound for said entities
 - **[7]** Make turrets attack enemy entities that are within range
 - **[8]** Add path finding and map interaction to enemy entities utilizing Dijkstra's algorithm
+- **[9]** Add score and currency systems
 
 ## Open Issues ##
 
-- **[9]** Add score and currency systems
 - **[10]** Add an end game condition and an end game screen
 - **[11]** Add enemy waves
 - **[12]** Add at least 3 interesting maps
