@@ -67,6 +67,7 @@ public class Turret extends Entity {
 		myMap.myGame.gold += p.value;
 		myMap.myGame.score += p.value * 2;
 		myMap.myGame.enemies.remove(p);
+		myMap.myGame.deathToll += 1;
 	}
 	
 	/**

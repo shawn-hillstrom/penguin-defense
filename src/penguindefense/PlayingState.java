@@ -16,12 +16,12 @@ import jig.Vector;
 
 public class PlayingState extends BasicGameState {
 	
-	private int wave = 1;
-	private int enemyCount = 100;
-	private int enemyTot = 100;
-	private int time = 0;
-	private int thresh = 500;
-	private boolean debug = false;
+	private int wave;
+	private int enemyTot;
+	private int enemyCount;
+	private int time;
+	private float thresh;
+	private boolean debug;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -31,6 +31,13 @@ public class PlayingState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
 		container.setSoundOn(true);
+		
+		wave = 1;
+		enemyTot = 100;
+		enemyCount = 0;
+		time = 0;
+		thresh = 400;
+		debug = false;
 	}
 
 	@Override
@@ -88,7 +95,7 @@ public class PlayingState extends BasicGameState {
 		g.setColor(Color.darkGray);
 		g.drawString("Score: " + myGame.score, 10, 30);
 		g.drawString("Wave: " + wave, 10, 50);
-		g.drawString("Enemies Remaining: " + enemyCount + "/" + enemyTot, 10, 70);
+		g.drawString("Enemies Remaining: " + (enemyTot - myGame.deathToll), 10, 70);
 		
 		g.setColor(Color.orange);
 		g.drawString("Gold: " + myGame.gold, 10, myGame.screenHeight - 30);
@@ -109,11 +116,21 @@ public class PlayingState extends BasicGameState {
 			debug = !debug;
 		
 		time += delta;
-		if (time >= thresh) {
+		if (time >= thresh && enemyCount < enemyTot) {
 			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, 5, myGame);
 			newP.setObjective(myGame.myMap.mapStart);
 			myGame.enemies.add(newP);
+			enemyCount += 1;
 			time = 0;
+		}
+		
+		if (myGame.deathToll >= enemyTot) {
+			wave += 1;
+			enemyTot *= 2;
+			enemyCount = 0;
+			thresh /= 1.5;
+			time = -2000;
+			myGame.deathToll = 0;
 		}
 		
 		for (Tile[] l : myGame.myMap.map) {
@@ -164,7 +181,7 @@ public class PlayingState extends BasicGameState {
 		if (myGame.obj.getLives() <= 0) {
 			((GameOverState)game.getState(PenguinDefenseGame.GAMEOVERSTATE)).setWin(false);
 			myGame.enterState(PenguinDefenseGame.GAMEOVERSTATE);
-		} else if (wave >= 5 && enemyCount <= 0) {
+		} else if (wave >= 5 && myGame.deathToll >= enemyTot) {
 			((GameOverState)game.getState(PenguinDefenseGame.GAMEOVERSTATE)).setWin(true);
 			myGame.enterState(PenguinDefenseGame.GAMEOVERSTATE);
 		}

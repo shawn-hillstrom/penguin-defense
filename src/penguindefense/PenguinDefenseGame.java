@@ -32,7 +32,8 @@ public class PenguinDefenseGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	// constraint variables
-	public int maxEnemies = 1000;
+	public int maxEnemies = 1600;
+	public int deathToll = 0;
 	
 	// game variables
 	public int score = 0;
