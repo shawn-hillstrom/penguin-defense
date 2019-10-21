@@ -76,11 +76,23 @@ public class Penguin extends Entity {
 		return velocity;
 	}
 	
+	/**
+	 * Set the objective of this entity.
+	 * 
+	 * @param e
+	 * - the objective entity for this entity
+	 */
 	public void setObjective(Entity e) {
 		obj = e;
 		setVelocity(new Vector(e.getX() - this.getX(), e.getY() - this.getY()).unit());
 	}
 	
+	/**
+	 * Get the objective of this entity.
+	 * 
+	 * @return
+	 * - the objective entity for this entity
+	 */
 	public Entity getObjective() {
 		return obj;
 	}
@@ -106,10 +118,24 @@ public class Penguin extends Entity {
 		return speed;
 	}
 	
+	/**
+	 * Check to see whether or not this entity collides with another.
+	 * 
+	 * @param e
+	 * - other entity
+	 * @return
+	 * - true on collision, false otherwise
+	 */
 	private boolean collidesWith(Entity e) {
 		return (collides(e) != null) ? true : false;
 	}
 	
+	/**
+	 * Get an encounter object when this entity collides with another.
+	 * 
+	 * @return
+	 * - a new encounter object
+	 */
 	public Encounter getEncounter() {
 		if (collidesWith(myGame.obj)) {
 			return new Encounter(myGame.obj, Encounter.E_OBJ);
@@ -159,6 +185,11 @@ public class Penguin extends Entity {
 		}
 	}
 	
+	/**
+	 * A private class representing an encounter between this entity and another. This
+	 * object contains information about the nature of the other entity, including
+	 * whether or not it can be interacted with, and what type it is specifically.
+	 */
 	private class Encounter {
 		
 		public static final int E_NULL = 0;

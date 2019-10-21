@@ -63,6 +63,14 @@ public class GameMap {
 		myGame = game;
 	}
 	
+	/**
+	 * Hash function for the position of an entity.
+	 * 
+	 * @param e
+	 * - entity to hash
+	 * @return
+	 * - vector containing two dimensional hash value
+	 */
 	public Vector hashPos(Entity e) {
 		int xIndex = (int)(e.getX() - corner.getX() - 16)/32;
 		int yIndex = (int)(e.getY() - corner.getY() - 16)/32;
@@ -79,11 +87,29 @@ public class GameMap {
 		return corner;
 	}
 	
+	/**
+	 * Set the cost for a tile on the map to a specified value.
+	 * 
+	 * @param e
+	 * - entity with the position of the specified tile for hashing
+	 * @param c
+	 * - new cost for the tile
+	 */
 	public void setMapCost(Entity e, double c) {
 		Vector hashIndex = hashPos(e);
 		mapCost[(int)hashIndex.getY()][(int)hashIndex.getX()] = c;
 	}
 	
+	/**
+	 * Find the edge weight between two tiles.
+	 * 
+	 * @param u
+	 * - destination tile
+	 * @param v
+	 * - source tile
+	 * @return
+	 * - weight value
+	 */
 	private double weight(Tile u, Tile v) {
 		Vector uIndex = hashPos(u);
 		Vector vIndex = hashPos(v);
@@ -92,6 +118,14 @@ public class GameMap {
 		return wu + wv;
 	}
 	
+	/**
+	 * Relax the cost to travel from v to u.
+	 * 
+	 * @param u
+	 * - destination tile
+	 * @param v
+	 * - source tile
+	 */
 	private void relax(Tile u, Tile v) {
 		double w = weight(u, v);
 		if (v.dVal > u.dVal + w) {
@@ -100,6 +134,12 @@ public class GameMap {
 		}
 	}
 	
+	/**
+	 * Initialize an empty source for Dijkstra's
+	 * 
+	 * @param s
+	 * - source for dijkstra's
+	 */
 	private void initializeEmptySource(Tile s) {
 		for (Tile[] l : map) {
 			for (Tile t : l) {
@@ -109,6 +149,9 @@ public class GameMap {
 		s.dVal = 0;
 	}
 	
+	/**
+	 * Implementation of Dijkstra's algorithm using a PriorityQueue.
+	 */
 	public void dijkstra() {
 		
 		Tile[][] s = new Tile[22][22];

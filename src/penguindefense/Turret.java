@@ -5,6 +5,13 @@ import java.util.Iterator;
 import jig.Entity;
 import jig.ResourceManager;
 
+/**
+ * A class representing a turret entity. Turrets can be built and destroyed by the
+ * player and will update the path costs of surrounding tiles.
+ * 
+ * Turrets can fire at enemies that are within range and will destroy them immediately.
+ * Turrets also have a cooldown on firing.
+ */
 public class Turret extends Entity {
 
 	public static int COST = 100;
@@ -30,6 +37,13 @@ public class Turret extends Entity {
 		addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_TURRET));
 	}
 	
+	/**
+	 * Update the path cost of this tile, and surrounding tiles, based on the range of
+	 * this turret.
+	 * 
+	 * @param c
+	 * - new path cost for tiles
+	 */
 	public void updateCost(double c) {
 		for (Tile[] l : myMap.map) {
 			for (Tile t : l) {
@@ -61,6 +75,12 @@ public class Turret extends Entity {
 		return range;
 	}
 	
+	/**
+	 * Fire at an enemy and destroy them.
+	 * 
+	 * @param p
+	 * - the target
+	 */
 	public void fire (Penguin p) {
 		ResourceManager.getSound(PenguinDefenseGame.SND_SHOT).play();
 		myMap.myGame.lasers.add(new Laser(this.getPosition(), p.getPosition()));

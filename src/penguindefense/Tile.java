@@ -46,7 +46,7 @@ public class Tile extends Entity implements Comparable<Tile> {
 	}
 	
 	/**
-	 * Check to see whether a tile is fortified
+	 * Check to see whether a tile is fortified.
 	 * 
 	 * @return
 	 * - whether or not the tile is fortified
@@ -55,10 +55,22 @@ public class Tile extends Entity implements Comparable<Tile> {
 		return fortified;
 	}
 	
+	/**
+	 * Set the fortification status of this entity.
+	 * 
+	 * @param b
+	 * - new fortified value
+	 */
 	public void setFortified(boolean b) {
 		fortified = b;
 	}
 	
+	/**
+	 * Check whether or not this tile can be fortified.
+	 * 
+	 * @return
+	 * - true if this tile can be fortified, false otherwise.
+	 */
 	public boolean canFortify() {
 		if (type == "turn" || fortified ||
 				((type == "straight-horizontal" || type == "straight-vertical") && (myMap.wallCount >= myMap.maxWalls || myMap.myGame.gold < Wall.COST)) ||
@@ -69,6 +81,9 @@ public class Tile extends Entity implements Comparable<Tile> {
 		}
 	}
 	
+	/**
+	 * Fortify this tile, provided that it can be fortified.
+	 */
 	public void fortify() {
 		
 		if (!fortified) {
@@ -107,6 +122,9 @@ public class Tile extends Entity implements Comparable<Tile> {
 		}
 	}
 	
+	/**
+	 * Unfortify this tile, provided it was fortified to begin with.
+	 */
 	public void unfortify() {
 		
 		if (fortified) {
@@ -127,6 +145,12 @@ public class Tile extends Entity implements Comparable<Tile> {
 		}
 	}
 	
+	/**
+	 * Get the adjacent path tiles (successors) to this tile, if there are any.
+	 * 
+	 * @return
+	 * - a stack containing successors
+	 */
 	public Stack<Tile> successors() {
 		
 		Stack<Tile> s = new Stack<Tile>();

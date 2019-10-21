@@ -3,6 +3,13 @@ package penguindefense;
 import jig.Entity;
 import jig.ResourceManager;
 
+/**
+ * A class representing a wall entity. Walls can be built and destroyed by the player and
+ * will block enemy entities that come into contact with them.
+ * 
+ * Walls can also be destroyed by enemies over time, and they have a certain amount of
+ * damage they can take before being destroyed.
+ */
 public class Wall extends Entity {
 	
 	public static int COST = 75;
@@ -35,6 +42,12 @@ public class Wall extends Entity {
 		}
 	}
 	
+	/**
+	 * Update the path cost of this tile.
+	 * 
+	 * @param c
+	 * - new path cost
+	 */
 	public void updateCost(double c) {
 		myMap.setMapCost(this, c);
 		myMap.dijkstra();

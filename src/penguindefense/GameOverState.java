@@ -10,6 +10,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import jig.ResourceManager;
 
+/**
+ * This state is active when the game reaches an end condition whether a win or a loss.
+ * A player can no longer interact with the map and can only transition into the next
+ * state (StartUpState) by pressing space.
+ * 
+ * Transitions from PlayingState.
+ * 
+ * Transitions to StartUpState.
+ */
 public class GameOverState extends BasicGameState {
 	
 	private boolean win = false;
@@ -24,16 +33,25 @@ public class GameOverState extends BasicGameState {
 		
 	}
 	
+	/**
+	 * Set the value of win.
+	 * 
+	 * @param b
+	 * - value for win
+	 */
 	public void setWin(boolean b) {
 		win = b;
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
+		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		
+		// render the background
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
+		// render walls
 		for (Wall[] l : myGame.myMap.walls) {
 			for (Wall w : l) {
 				if (w != null) {
@@ -42,12 +60,14 @@ PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 			}
 		}
 		
+		// render tiles
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.render(g);
 			}
 		}
 		
+		// render turrets
 		for (Turret[] l : myGame.myMap.turrets) {
 			for (Turret t : l) {
 				if (t != null) {
@@ -56,10 +76,12 @@ PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 			}
 		}
 		
+		// render just the score
 		g.setColor(Color.darkGray);
 		g.drawString("Score: " + myGame.score, 10, 30);
 		g.drawString("Press space to continue...", 220, 450);
 		
+		// render the proper banner
 		if (win) {
 			g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BANNER_VICTORY), 220, 270);
 		} else {

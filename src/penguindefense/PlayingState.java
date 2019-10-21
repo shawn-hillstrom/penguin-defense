@@ -14,6 +14,14 @@ import org.newdawn.slick.state.StateBasedGame;
 import jig.ResourceManager;
 import jig.Vector;
 
+/**
+ * This state is active while playing the game. A player can see and interact with the
+ * map and all entities on or around the map.
+ * 
+ * Transitions from StartUpState.
+ * 
+ * Transitions to GameOverState.
+ */
 public class PlayingState extends BasicGameState {
 	
 	private int wave;
@@ -30,6 +38,7 @@ public class PlayingState extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
+		
 		container.setSoundOn(true);
 		
 		wave = 1;
@@ -45,8 +54,10 @@ public class PlayingState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
+		// render background
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
+		// render walls
 		for (Wall[] l : myGame.myMap.walls) {
 			for (Wall w : l) {
 				if (w != null) {
@@ -55,16 +66,19 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// render enemies
 		for (Penguin p : myGame.enemies) {
 			p.render(g);
 		}
 		
+		// render tiles
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.render(g);
 			}
 		}
 		
+		// render turrets
 		for (Turret[] l : myGame.myMap.turrets) {
 			for (Turret t : l) {
 				if (t != null) {
@@ -73,11 +87,13 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// render lasers
 		g.setColor(Color.red);
 		for (Laser l : myGame.lasers) {
 			g.drawLine(l.start.getX(), l.start.getY(), l.end.getX(), l.end.getY());
 		}
 		
+		// render the objective
 		myGame.obj.render(g);
 		
 		// debug dijkstra's
@@ -92,6 +108,7 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// render information labels
 		g.setColor(Color.darkGray);
 		g.drawString("Score: " + myGame.score, 10, 30);
 		g.drawString("Wave: " + wave, 10, 50);
@@ -115,6 +132,7 @@ public class PlayingState extends BasicGameState {
 		if (input.isKeyPressed(Input.KEY_TAB))
 			debug = !debug;
 		
+		// spawn a new penguin
 		time += delta;
 		if (time >= thresh && enemyCount < enemyTot) {
 			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, 5, myGame);
@@ -124,21 +142,24 @@ public class PlayingState extends BasicGameState {
 			time = 0;
 		}
 		
+		// set next wave
 		if (myGame.deathToll >= enemyTot) {
 			wave += 1;
 			enemyTot *= 2;
 			enemyCount = 0;
-			thresh /= 1.5;
-			time = -2000;
+			thresh /= 2;
+			time = -2500;
 			myGame.deathToll = 0;
 		}
 		
+		// update tiles
 		for (Tile[] l : myGame.myMap.map) {
 			for (Tile t : l) {
 				t.update(delta, input);
 			}
 		}
 		
+		// update walls
 		for (Wall[] l : myGame.myMap.walls) {
 			for (Wall w : l) {
 				if (w != null) {
@@ -154,6 +175,7 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// update turrets
 		for (Turret[] l : myGame.myMap.turrets) {
 			for (Turret t : l) {
 				if (t != null) {
@@ -162,13 +184,16 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// update the objective
 		myGame.obj.update(delta);
 		
+		// update enemies
 		for (Iterator <Penguin> i = myGame.enemies.iterator(); i.hasNext();) {
 			Penguin p = i.next();
 			p.update(delta);
 		}
 		
+		// update lasers
 		for (Iterator <Laser> i = myGame.lasers.iterator(); i.hasNext();) {
 			Laser l = i.next();
 			if (l.isActive()) {
@@ -178,6 +203,7 @@ public class PlayingState extends BasicGameState {
 			}
 		}
 		
+		// check for a win or loss
 		if (myGame.obj.getLives() <= 0) {
 			((GameOverState)game.getState(PenguinDefenseGame.GAMEOVERSTATE)).setWin(false);
 			myGame.enterState(PenguinDefenseGame.GAMEOVERSTATE);
