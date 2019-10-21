@@ -21,10 +21,18 @@ import jig.ResourceManager;
  * Transitions to PlayingState.
  */
 public class StartUpState extends BasicGameState {
+	
+	private int map = 1;
+	private int mapLoaded;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		
+		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
+		
+		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
+		generateMap(myGame);
+		System.out.printf("%d %d\n", map, mapLoaded);
 	}
 	
 	@Override
@@ -34,15 +42,31 @@ public class StartUpState extends BasicGameState {
 		
 		myGame.setGameVars(0, 100);
 		
-		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
-		myGame.myMap.generate();
-		myGame.myMap.dijkstra();
-		
 		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 1000);
 		
 		myGame.enemies = new ArrayList<Penguin>(myGame.maxEnemies);
 		
 		myGame.lasers = new ArrayList<Laser>(myGame.myMap.maxTurrets);
+	}
+	
+	/**
+	 * Generate a new map if the loaded map and selected map don't line up.
+	 * 
+	 * @param myGame
+	 * - reference to the game object
+	 */
+	private void generateMap(PenguinDefenseGame myGame) {
+		if (mapLoaded != map) {
+			if (map == 1) {
+				myGame.myMap.generate(myGame.map1);
+			} else if (map == 2) {
+				myGame.myMap.generate(myGame.map2);
+			} else if (map == 3) {
+				myGame.myMap.generate(myGame.map3);
+			}
+			myGame.myMap.dijkstra();
+			mapLoaded = map;
+		}
 	}
 
 	@Override
@@ -51,6 +75,13 @@ public class StartUpState extends BasicGameState {
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
+		
+		// render tiles
+		for (Tile[] l : myGame.myMap.map) {
+			for (Tile t : l) {
+				t.render(g);
+			}
+		}
 		
 		myGame.obj.render(g);
 		
@@ -66,8 +97,27 @@ public class StartUpState extends BasicGameState {
 		Input input = container.getInput();
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
+		// check for space bar
 		if (input.isKeyPressed(Input.KEY_SPACE))
 			myGame.enterState(PenguinDefenseGame.PLAYINGSTATE);
+		
+		// check for map switching
+		if (input.isKeyPressed(Input.KEY_LEFT)) {
+			if (map == 1) {
+				map = 3;
+			} else {
+				map -= 1;
+			}
+		} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
+			if (map == 3) {
+				map = 1;
+			} else {
+				map += 1;
+			}
+		}
+		
+		// generate a new map if necessary
+		generateMap(myGame);
 	}
 
 	@Override

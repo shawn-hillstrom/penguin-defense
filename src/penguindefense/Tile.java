@@ -110,14 +110,16 @@ public class Tile extends Entity implements Comparable<Tile> {
 					myMap.wallCount += 1;
 					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
 					myMap.myGame.gold -= Wall.COST;
+					fortified = true;
+					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				} else if (t != null && myMap.turretCount < myMap.maxTurrets && myMap.myGame.gold >= Turret.COST) {
 					t.updateCost(8);
 					myMap.turretCount += 1;
 					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = t;
 					myMap.myGame.gold -= Turret.COST;
+					fortified = true;
+					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				}
-				fortified = true;
-				ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 			}
 		}
 	}
