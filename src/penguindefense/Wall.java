@@ -5,7 +5,7 @@ import jig.ResourceManager;
 
 public class Wall extends Entity {
 	
-	public static int cost = 75;
+	public static int COST = 75;
 
 	public String type;
 	private GameMap myMap;

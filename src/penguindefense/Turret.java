@@ -7,7 +7,7 @@ import jig.ResourceManager;
 
 public class Turret extends Entity {
 
-	public static int cost;
+	public static int COST = 100;
 	
 	private float range;
 	private GameMap myMap;

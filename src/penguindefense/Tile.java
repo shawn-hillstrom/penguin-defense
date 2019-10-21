@@ -59,14 +59,6 @@ public class Tile extends Entity implements Comparable<Tile> {
 		fortified = b;
 	}
 	
-	public void fortify(String type) {
-		
-	}
-	
-	public void unfortify(String type) {
-		
-	}
-	
 	public Stack<Tile> successors() {
 		
 		Stack<Tile> s = new Stack<Tile>();
@@ -126,8 +118,8 @@ public class Tile extends Entity implements Comparable<Tile> {
 				(getCoarseGrainedMaxY() > my && getCoarseGrainedMinY() < my)) {
 			hover = true;
 			if (type == "turn" || fortified ||
-					((type == "straight-horizontal" || type == "straight-vertical") && myMap.wallCount >= myMap.maxWalls) ||
-					(type == "blank" && myMap.turretCount >= myMap.maxTurrets)) {
+					((type == "straight-horizontal" || type == "straight-vertical") && (myMap.wallCount >= myMap.maxWalls || myMap.myGame.gold < Wall.COST)) ||
+					(type == "blank" && (myMap.turretCount >= myMap.maxTurrets || myMap.myGame.gold < Turret.COST))) {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
 			} else {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
@@ -144,29 +136,32 @@ public class Tile extends Entity implements Comparable<Tile> {
 			Vector hashIndex = myMap.hashPos(this);
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !fortified) {
 				if (type == "straight-horizontal") {
-					if (myMap.wallCount < myMap.maxWalls) {
+					if (myMap.wallCount < myMap.maxWalls && myMap.myGame.gold >= Wall.COST) {
 						Wall w = new Wall(this.getX(), this.getY(), "vertical", myMap);
 						w.updateCost(5);
 						myMap.wallCount += 1;
 						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
+						myMap.myGame.gold -= Wall.COST;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else if (type == "straight-vertical") {
-					if (myMap.wallCount < myMap.maxWalls) {
+					if (myMap.wallCount < myMap.maxWalls && myMap.myGame.gold >= Wall.COST) {
 						Wall w = new Wall(this.getX(), this.getY(), "horizontal", myMap);
 						w.updateCost(5);
 						myMap.wallCount += 1;
 						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
+						myMap.myGame.gold -= Wall.COST;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
 				} else {
-					if (myMap.turretCount < myMap.maxTurrets) {
+					if (myMap.turretCount < myMap.maxTurrets && myMap.myGame.gold >= Turret.COST) {
 						Turret t = new Turret(this.getX(), this.getY(), 144f, myMap);
 						t.updateCost(8);
 						myMap.turretCount += 1;
 						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = t;
+						myMap.myGame.gold -= Turret.COST;
 						fortified = true;
 						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 					}
@@ -176,12 +171,14 @@ public class Tile extends Entity implements Comparable<Tile> {
 					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
 					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.wallCount -= 1;
+					myMap.myGame.gold += Wall.COST/2;
 					fortified = false;
 					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				} else {
 					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
 					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
 					myMap.turretCount -= 1;
+					myMap.myGame.gold += Turret.COST/2;
 					fortified = false;
 					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
 				}
