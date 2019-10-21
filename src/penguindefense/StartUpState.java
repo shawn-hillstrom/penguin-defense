@@ -28,11 +28,6 @@ public class StartUpState extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		
-		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
-		
-		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
-		generateMap(myGame);
-		System.out.printf("%d %d\n", map, mapLoaded);
 	}
 	
 	@Override
@@ -40,7 +35,12 @@ public class StartUpState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
-		myGame.setGameVars(0, 100);
+		myGame.setGameVars(0, 200);
+		myGame.deathToll = 0;
+		
+		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
+		mapLoaded = 0;
+		generateMap(myGame);
 		
 		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 1000);
 		

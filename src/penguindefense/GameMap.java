@@ -24,7 +24,7 @@ public class GameMap {
 	public int turretCount = 0;
 	
 	private Vector corner;
-	private double[][] mapCost;
+	private double[][] mapCost = new double[22][22];
 	
 	/**
 	 * Constructor for a game map.
@@ -154,13 +154,27 @@ public class GameMap {
 	}
 	
 	/**
+	 * Copy a passed in cost array to mapCosts.
+	 * 
+	 * @param costs
+	 * - cost array
+	 */
+	private void copyCosts(double[][] costs) {
+		for (int i = 0; i < mapCost.length; i++) {
+			for (int j = 0; j < mapCost.length; j++) {
+				mapCost[i][j] = costs[i][j];
+			}
+		}
+	}
+	
+	/**
 	 * Generates a game map given the mapCost array.
 	 * 
 	 * @param costs
 	 * - an array of map costs
 	 */
-	public void generate(double [][] costs) {
-		mapCost = costs;
+	public void generate(double[][] costs) {
+		copyCosts(costs);
 		for (int i = 0; i < mapCost.length; i++) {
 			for (int j = 0; j < mapCost.length; j++) {
 				String type = "blank";

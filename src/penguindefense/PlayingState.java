@@ -135,7 +135,7 @@ public class PlayingState extends BasicGameState {
 		// spawn a new penguin
 		time += delta;
 		if (time >= thresh && enemyCount < enemyTot) {
-			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, 5, myGame);
+			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.5f, 2, myGame);
 			newP.setObjective(myGame.myMap.mapStart);
 			myGame.enemies.add(newP);
 			enemyCount += 1;
@@ -147,7 +147,7 @@ public class PlayingState extends BasicGameState {
 			wave += 1;
 			enemyTot *= 2;
 			enemyCount = 0;
-			thresh /= 2;
+			thresh /= 1.7;
 			time = -2500;
 			myGame.deathToll = 0;
 		}

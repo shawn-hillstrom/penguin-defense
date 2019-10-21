@@ -51,31 +51,6 @@ public class GameOverState extends BasicGameState {
 		// render the background
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
-		// render walls
-		for (Wall[] l : myGame.myMap.walls) {
-			for (Wall w : l) {
-				if (w != null) {
-					w.render(g);
-				}
-			}
-		}
-		
-		// render tiles
-		for (Tile[] l : myGame.myMap.map) {
-			for (Tile t : l) {
-				t.render(g);
-			}
-		}
-		
-		// render turrets
-		for (Turret[] l : myGame.myMap.turrets) {
-			for (Turret t : l) {
-				if (t != null) {
-					t.render(g);
-				}
-			}
-		}
-		
 		// render just the score
 		g.setColor(Color.darkGray);
 		g.drawString("Score: " + myGame.score, 10, 30);
