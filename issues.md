@@ -11,10 +11,10 @@
 - **[9]** Add score and currency systems
 - **[10]** Add an end game condition and an end game screen
 - **[11]** Add enemy waves
+- **[12]** Add at least 3 interesting maps
 
 ## Open Issues ##
 
-- **[12]** Add at least 3 interesting maps
 - **[13]** [HIGH BAR] Add random map generation
 - **[14]** [HIGH BAR] Add music
 - **[15]** [HIGH BAR] Add upgradable turrets and walls
