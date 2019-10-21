@@ -59,6 +59,74 @@ public class Tile extends Entity implements Comparable<Tile> {
 		fortified = b;
 	}
 	
+	public boolean canFortify() {
+		if (type == "turn" || fortified ||
+				((type == "straight-horizontal" || type == "straight-vertical") && (myMap.wallCount >= myMap.maxWalls || myMap.myGame.gold < Wall.COST)) ||
+				(type == "blank" && (myMap.turretCount >= myMap.maxTurrets || myMap.myGame.gold < Turret.COST))) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public void fortify() {
+		
+		if (!fortified) {
+			
+			boolean canBuild = false;
+			Wall w = null;
+			Turret t = null;
+			
+			if (type == "straight-horizontal") {
+				canBuild = true;
+				w = new Wall(this.getX(), this.getY(), "vertical", myMap);
+			} else if (type == "straight-vertical") {
+				canBuild = true;
+				w = new Wall(this.getX(), this.getY(), "horizontal", myMap);
+			} else if (type == "blank") {
+				canBuild = true;
+				t = new Turret(this.getX(), this.getY(), 144f, myMap);
+			}
+			
+			if (canBuild) {
+				Vector hashIndex = myMap.hashPos(this);
+				if (w != null && myMap.wallCount < myMap.maxWalls && myMap.myGame.gold >= Wall.COST) {
+					w.updateCost(5);
+					myMap.wallCount += 1;
+					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
+					myMap.myGame.gold -= Wall.COST;
+				} else if (t != null && myMap.turretCount < myMap.maxTurrets && myMap.myGame.gold >= Turret.COST) {
+					t.updateCost(8);
+					myMap.turretCount += 1;
+					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = t;
+					myMap.myGame.gold -= Turret.COST;
+				}
+				fortified = true;
+				ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+			}
+		}
+	}
+	
+	public void unfortify() {
+		
+		if (fortified) {
+			Vector hashIndex = myMap.hashPos(this);
+			if (type == "straight-horizontal" || type == "straight-vertical") {
+				myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
+				myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
+				myMap.wallCount -= 1;
+				myMap.myGame.gold += Wall.COST/2;
+			} else if (type == "blank") {
+				myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
+				myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
+				myMap.turretCount -= 1;
+				myMap.myGame.gold += Turret.COST/2;
+			}
+			fortified = false;
+			ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
+		}
+	}
+	
 	public Stack<Tile> successors() {
 		
 		Stack<Tile> s = new Stack<Tile>();
@@ -113,75 +181,26 @@ public class Tile extends Entity implements Comparable<Tile> {
 		int mx = input.getMouseX();
 		int my = input.getMouseY();
 		
-		if (!hover &&
-				(getCoarseGrainedMaxX() > mx && getCoarseGrainedMinX() < mx) &&
+		removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
+		removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
+		
+		if ((getCoarseGrainedMaxX() > mx && getCoarseGrainedMinX() < mx) &&
 				(getCoarseGrainedMaxY() > my && getCoarseGrainedMinY() < my)) {
 			hover = true;
-			if (type == "turn" || fortified ||
-					((type == "straight-horizontal" || type == "straight-vertical") && (myMap.wallCount >= myMap.maxWalls || myMap.myGame.gold < Wall.COST)) ||
-					(type == "blank" && (myMap.turretCount >= myMap.maxTurrets || myMap.myGame.gold < Turret.COST))) {
-				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
-			} else {
+			if (canFortify()) {
 				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
+			} else {
+				addImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
 			}
-		} else if (hover &&
-				(getCoarseGrainedMaxX() < mx || getCoarseGrainedMinX() > mx) ||
-				(getCoarseGrainedMaxY() < my || getCoarseGrainedMinY() > my)) {
+		} else {
 			hover = false;
-			removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_NO));
-			removeImage(ResourceManager.getImage(PenguinDefenseGame.IMG_HIGHLIGHT_YES));
 		}
 		
-		if (hover && type != "turn") {
-			Vector hashIndex = myMap.hashPos(this);
+		if (hover) {
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && !fortified) {
-				if (type == "straight-horizontal") {
-					if (myMap.wallCount < myMap.maxWalls && myMap.myGame.gold >= Wall.COST) {
-						Wall w = new Wall(this.getX(), this.getY(), "vertical", myMap);
-						w.updateCost(5);
-						myMap.wallCount += 1;
-						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
-						myMap.myGame.gold -= Wall.COST;
-						fortified = true;
-						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
-					}
-				} else if (type == "straight-vertical") {
-					if (myMap.wallCount < myMap.maxWalls && myMap.myGame.gold >= Wall.COST) {
-						Wall w = new Wall(this.getX(), this.getY(), "horizontal", myMap);
-						w.updateCost(5);
-						myMap.wallCount += 1;
-						myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = w;
-						myMap.myGame.gold -= Wall.COST;
-						fortified = true;
-						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
-					}
-				} else {
-					if (myMap.turretCount < myMap.maxTurrets && myMap.myGame.gold >= Turret.COST) {
-						Turret t = new Turret(this.getX(), this.getY(), 144f, myMap);
-						t.updateCost(8);
-						myMap.turretCount += 1;
-						myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = t;
-						myMap.myGame.gold -= Turret.COST;
-						fortified = true;
-						ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
-					}
-				}
+				fortify();
 			} else if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON) && fortified) {
-				if (type == "straight-horizontal" || type == "straight-vertical") {
-					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
-					myMap.walls[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
-					myMap.wallCount -= 1;
-					myMap.myGame.gold += Wall.COST/2;
-					fortified = false;
-					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
-				} else {
-					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()].updateCost(1);
-					myMap.turrets[(int)hashIndex.getX()][(int)hashIndex.getY()] = null;
-					myMap.turretCount -= 1;
-					myMap.myGame.gold += Turret.COST/2;
-					fortified = false;
-					ResourceManager.getSound(PenguinDefenseGame.SND_BUILD).play();
-				}
+				unfortify();
 			}
 		}
 	}

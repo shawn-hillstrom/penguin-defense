@@ -91,7 +91,7 @@ public class PlayingState extends BasicGameState {
 		g.drawString("Enemies Remaining: " + enemyCount + "/" + enemyTot, 10, 70);
 		
 		g.setColor(Color.orange);
-		g.drawString("Gold: " + myGame.gold, 10, 90);
+		g.drawString("Gold: " + myGame.gold, 10, myGame.screenHeight - 30);
 		
 		g.setColor(Color.red);
 		g.drawString("Health: " + myGame.obj.getLives(), myGame.obj.getX() - 57, myGame.obj.getY() - 90);
