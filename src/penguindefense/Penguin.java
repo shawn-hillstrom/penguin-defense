@@ -15,10 +15,11 @@ import jig.Vector;
  */
 public class Penguin extends Entity {
 	
+	public int value;
 	private Vector velocity;
 	private float speed;
-	private Entity obj;
 	private PenguinDefenseGame myGame;
+	private Entity obj;
 	private int count = 1000;
 	
 	/**
@@ -30,12 +31,15 @@ public class Penguin extends Entity {
 	 * - initial y position
 	 * @param s
 	 * - initial speed
+	 * @param v
+	 * - value of penguin
 	 * @param game
 	 * - reference to the game
 	 */
-	public Penguin(float x, float y, float s, PenguinDefenseGame game) {
+	public Penguin(float x, float y, float s, int v, PenguinDefenseGame game) {
 		super(x, y);
 		speed = s;
+		value = v;
 		myGame = game;
 		addImageWithBoundingBox(ResourceManager.getImage(PenguinDefenseGame.IMG_PENGUIN));
 	}

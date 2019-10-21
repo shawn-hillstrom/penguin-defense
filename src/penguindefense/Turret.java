@@ -7,6 +7,8 @@ import jig.ResourceManager;
 
 public class Turret extends Entity {
 
+	public static int cost;
+	
 	private float range;
 	private GameMap myMap;
 	private int count = 500;
@@ -62,6 +64,8 @@ public class Turret extends Entity {
 	public void fire (Penguin p) {
 		ResourceManager.getSound(PenguinDefenseGame.SND_SHOT).play();
 		myMap.myGame.lasers.add(new Laser(this.getPosition(), p.getPosition()));
+		myMap.myGame.gold += p.value;
+		myMap.myGame.score += p.value * 2;
 		myMap.myGame.enemies.remove(p);
 	}
 	

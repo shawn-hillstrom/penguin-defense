@@ -16,8 +16,9 @@ import jig.Vector;
 
 public class PlayingState extends BasicGameState {
 	
-//	private int wave = 1;
-//	private int enemyCount = 0;
+	private int wave = 1;
+	private int enemyCount = 100;
+	private int enemyTot = 100;
 	private int time = 0;
 	private int thresh = 500;
 	private boolean debug = false;
@@ -83,6 +84,17 @@ public class PlayingState extends BasicGameState {
 				}
 			}
 		}
+		
+		g.setColor(Color.darkGray);
+		g.drawString("Score: " + myGame.score, 10, 30);
+		g.drawString("Wave: " + wave, 10, 50);
+		g.drawString("Enemies Remaining: " + enemyCount + "/" + enemyTot, 10, 70);
+		
+		g.setColor(Color.orange);
+		g.drawString("Gold: " + myGame.gold, 10, 90);
+		
+		g.setColor(Color.red);
+		g.drawString("Health: " + myGame.obj.getLives(), myGame.obj.getX() - 57, myGame.obj.getY() - 90);
 	}
 
 	@Override
@@ -98,7 +110,7 @@ public class PlayingState extends BasicGameState {
 		
 		time += delta;
 		if (time >= thresh) {
-			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, myGame);
+			Penguin newP = new Penguin(0, rng.nextInt(myGame.screenHeight + 1), 1.2f, 5, myGame);
 			newP.setObjective(myGame.myMap.mapStart);
 			myGame.enemies.add(newP);
 			time = 0;

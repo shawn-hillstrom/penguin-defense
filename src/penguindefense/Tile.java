@@ -59,6 +59,14 @@ public class Tile extends Entity implements Comparable<Tile> {
 		fortified = b;
 	}
 	
+	public void fortify(String type) {
+		
+	}
+	
+	public void unfortify(String type) {
+		
+	}
+	
 	public Stack<Tile> successors() {
 		
 		Stack<Tile> s = new Stack<Tile>();

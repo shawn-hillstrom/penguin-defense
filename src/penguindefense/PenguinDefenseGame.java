@@ -34,6 +34,10 @@ public class PenguinDefenseGame extends StateBasedGame {
 	// constraint variables
 	public int maxEnemies = 1000;
 	
+	// game variables
+	public int score = 0;
+	public int gold = 100;
+	
 	//sounds
 	public static final String SND_QUACK = "penguindefense/resource/quack.wav";
 	public static final String SND_DAMAGE = "penguindefense/resource/damage.wav";
@@ -89,6 +93,11 @@ public class PenguinDefenseGame extends StateBasedGame {
 		screenWidth = width;
 		screenHeight = height;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.AABB);
+	}
+	
+	public void setGameVars(int s, int g) {
+		score = s;
+		gold = g;
 	}
 
 	@Override

@@ -32,11 +32,13 @@ public class StartUpState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
+		myGame.setGameVars(0, 100);
+		
 		myGame.myMap = new GameMap(myGame.screenWidth/2, myGame.screenHeight/2, myGame);
 		myGame.myMap.generate();
 		myGame.myMap.dijkstra();
 		
-		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 10);
+		myGame.obj = new Objective(myGame.screenWidth - 96, myGame.screenHeight/2, 1000);
 		
 		myGame.enemies = new ArrayList<Penguin>(myGame.maxEnemies);
 		
@@ -48,13 +50,12 @@ public class StartUpState extends BasicGameState {
 		
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
-		g.setColor(Color.darkGray);
-		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BACKGROUND), 0, 0);
 		
 		myGame.obj.render(g);
 		
 		g.drawImage(ResourceManager.getImage(PenguinDefenseGame.IMG_BANNER_START), 220, 180);
+		g.setColor(Color.darkGray);
 		g.drawString("Press space to start...", 220, 540);
 		
 	}
