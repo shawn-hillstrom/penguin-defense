@@ -160,6 +160,14 @@ public class PlayingState extends BasicGameState {
 				i.remove();
 			}
 		}
+		
+		if (myGame.obj.getLives() <= 0) {
+			((GameOverState)game.getState(PenguinDefenseGame.GAMEOVERSTATE)).setWin(false);
+			myGame.enterState(PenguinDefenseGame.GAMEOVERSTATE);
+		} else if (wave >= 5 && enemyCount <= 0) {
+			((GameOverState)game.getState(PenguinDefenseGame.GAMEOVERSTATE)).setWin(true);
+			myGame.enterState(PenguinDefenseGame.GAMEOVERSTATE);
+		}
 	}
 
 	@Override

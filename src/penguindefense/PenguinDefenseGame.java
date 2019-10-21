@@ -107,6 +107,7 @@ public class PenguinDefenseGame extends StateBasedGame {
 		
 		addState(new StartUpState());
 		addState(new PlayingState());
+		addState(new GameOverState());
 		
 		// initialize sounds
 		ResourceManager.loadSound(SND_QUACK);

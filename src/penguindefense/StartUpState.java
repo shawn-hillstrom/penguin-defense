@@ -66,7 +66,7 @@ public class StartUpState extends BasicGameState {
 		Input input = container.getInput();
 		PenguinDefenseGame myGame = (PenguinDefenseGame)game;
 		
-		if (input.isKeyDown(Input.KEY_SPACE))
+		if (input.isKeyPressed(Input.KEY_SPACE))
 			myGame.enterState(PenguinDefenseGame.PLAYINGSTATE);
 	}
 
